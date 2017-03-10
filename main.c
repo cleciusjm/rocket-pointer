@@ -8,7 +8,7 @@
 #include <unistd.h>
 
 const int h = 10;
-const int w = 10;
+const int w = 100;
 void clear() {
 	for (int i = 0; i < 100; i++) {
 		printf("\n");
@@ -37,11 +37,11 @@ int main() {
 		}
 
 		/*Move*/
-		int* tmp = idx[h-1];
-		for (int i = 0; i < h - 1; i++) {
+		int* tmp = idx[0];
+		for (int i = 1; i < h; i++) {
 			idx[i - 1] = idx[i];
 		}
-		idx[0] = tmp;
+		idx[h-1] = tmp;
 
 		sleep(1);
 	}
