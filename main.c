@@ -7,12 +7,25 @@
 #include <stdio.h>
 #include <unistd.h>
 
-const int h = 10;
+const int h = 30;
 const int w = 100;
+const int fh = 5;
+const int fw = 3;
+
 void clear() {
 	for (int i = 0; i < 100; i++) {
 		printf("\n");
 	}
+}
+int point(int ih, int iw) {
+	if (ih > (h - 1 - fh)) {
+		int fhi = fw - (h - ih);
+		int med = w / 2;
+		int lbound = med - fw - fhi;
+		int rbound = med + fw + fhi;
+		return iw > lbound && iw < rbound ? 1 : 0;
+	}
+	return 0;
 }
 int main() {
 	int matrix[h][w];
@@ -21,11 +34,10 @@ int main() {
 	for (int ih = 0; ih < h; ih++) {
 		idx[ih] = &matrix[ih];
 		for (int iw = 0; iw < w; iw++) {
-			matrix[ih][iw] = ih < 8 ? 0 : 1;
+			matrix[ih][iw] = point(ih, iw);
 		}
 	}
-
-	for (int step = 0; step < 20; step++) {
+	for (int step = 0; step < (h * 2) + fh; step++) {
 		clear();
 		/*Print Matrix*/
 		printf("Step[%d]\n", step);
@@ -41,9 +53,9 @@ int main() {
 		for (int i = 1; i < h; i++) {
 			idx[i - 1] = idx[i];
 		}
-		idx[h-1] = tmp;
+		idx[h - 1] = tmp;
 
-		sleep(1);
+		usleep((((h * 2) + fh + 1) - step) * 5 * 1000);
 	}
 	return (1);
 }
