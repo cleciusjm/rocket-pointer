@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-const int h = 30;
+const int h = 40;
 const int w = 100;
 const int fh = 5;
 const int fw = 3;
@@ -27,9 +27,10 @@ int point(int ih, int iw) {
 	}
 	return 0;
 }
+
 int main() {
 	int matrix[h][w];
-	int* idx[h];
+	int *idx[h];
 	/*Fill Matrix with zeros*/
 	for (int ih = 0; ih < h; ih++) {
 		idx[ih] = &matrix[ih];
@@ -37,7 +38,8 @@ int main() {
 			matrix[ih][iw] = point(ih, iw);
 		}
 	}
-	for (int step = 0; step < (h * 2) + fh; step++) {
+	int iterations = ((h * 2) + fh);
+	for (int step = 0; step < iterations; step++) {
 		clear();
 		/*Print Matrix*/
 		printf("Step[%d]\n", step);
@@ -54,8 +56,7 @@ int main() {
 			idx[i - 1] = idx[i];
 		}
 		idx[h - 1] = tmp;
-
-		usleep((((h * 2) + fh + 1) - step) * 5 * 1000);
+		usleep((step > iterations ? 1 : iterations - step) * 1000);
 	}
 	return (1);
 }
